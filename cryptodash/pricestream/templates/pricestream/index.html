@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="author" content="Graham Arnold">
+    <meta name="description" content="gCrypto Dashboard is a practice web app
+    that offers any cool crypto related features that I can think up and create!">
+    <link rel="shortcut icon" type='image/png' href="{% static 'favicon.png' %}">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static 'pricestream/css/style.css' %}">
+    <title>gCrypto Dashboard </title>
+  </head>
+  <header>
+    <!-- <h1> BTC Price is: {{ btc_price.btc_price }} </h1> -->
+    <!-- <h2> Last updated {{ btc_price.last_updated }} UTC </h2> -->
+  <header>
+  <body>
+    <!-- <p id="test"> Test Ajax </p> -->
+    <!-- <button type="button" onclick="makeApiCall()"> Start Test </button> -->
+    <!-- <a href="{% static 'pricestream/dl-files/test.txt' %}" download> link to text download (DL on click) </a> -->
+    <div id='priceblock'>
+      <p id="btcprice"> </p>
+    </div>
+
+    <script>
+
+      var price;
+      initialize();
+      //writePrice(price);
+      //console.log(price);
+      //document.getElementById("btcprice").innerHTML = price;
+
+      function AJ() {
+        var req;
+        if (window.XMLHttpRequest) {
+          // code for modern browsers
+          req = new XMLHttpRequest();
+        } else {
+          // code for IE6, IE5
+          req = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        req.overrideMimeType("application/json");
+        req.open('GET', 'http://localhost:8000/pricestream/api/btcusdt/', true);
+        //req.open('GET', 'test.txt', true);
+        req.onload  = function() {
+           //document.getElementById("test").innerHTML =  req.responseText
+           //console.log(req.responseText)
+           var jsonResponse = JSON.parse(req.responseText);
+           document.getElementById("test").innerHTML = jsonResponse.btc_price;
+        };
+        req.send(null);
+      }
+
+      function makeApiCall_OLD() {
+        //do something
+        var req;
+        if (window.XMLHttpRequest) {
+          // code for modern browsers
+          req = new XMLHttpRequest();
+        } else {
+          // code for IE6, IE5
+          req = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        req.overrideMimeType("application/json");
+        //var str = window.performance.now();
+        req.open('GET', 'http://localhost:8000/pricestream/api/btcusdt/', true);
+        //req.open('GET', 'test.txt', true);
+        req.onload  = function() {
+           //document.getElementById("test").innerHTML =  req.responseText
+           //console.log(req.responseText)
+           var jsonResponse = JSON.parse(req.responseText);
+           var priceFloat = parseFloat(jsonResponse.btc_price).toFixed(2);
+           document.getElementById("btcprice").innerHTML = priceFloat;
+        };
+        //var end = window.performance.now();
+        //console.log(`Execution time: ${end - str} ms`);
+        req.send(null);
+        //window.setTimeout(function() {
+        //  makeApiCall()
+        //}, 10000);
+
+        window.setTimeout(makeApiCall_OLD, 5000);
+      }
+
+
+       async function makeApiCall() {
+        //do something
+        const result = await updatePrice();
+        writePrice(price);
+        window.setTimeout(makeApiCall, 5000);
+      }
+
+      function updatePrice() {
+        //do something
+        var req;
+        if (window.XMLHttpRequest) {
+          // code for modern browsers
+          req = new XMLHttpRequest();
+        } else {
+          // code for IE6, IE5
+          req = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        req.overrideMimeType("application/json");
+        //var str = window.performance.now();
+        req.open('GET', 'http://localhost:8000/pricestream/api/btcusdt/', true);
+        //req.open('GET', 'test.txt', true);
+        req.onload  = function() {
+           //document.getElementById("test").innerHTML =  req.responseText
+           //console.log(req.responseText)
+           var jsonResponse = JSON.parse(req.responseText);
+           price = parseFloat(jsonResponse.btc_price).toFixed(2);
+           //document.getElementById("btcprice").innerHTML = priceFloat;
+        };
+        //var end = window.performance.now();
+        //console.log(`Execution time: ${end - str} ms`);
+        req.send(null);
+      }
+
+      function writePrice(currPrice) {
+        document.getElementById("btcprice").innerHTML = currPrice;
+      }
+
+      async function initialize_OLD() {
+        const result = await updatePrice();
+        writePrice(price);
+        window.setTimeout(makeApiCall,5000);
+
+      }
+
+      function initialize() {
+        var req;
+        if (window.XMLHttpRequest) {
+          // code for modern browsers
+          req = new XMLHttpRequest();
+        } else {
+          // code for IE6, IE5
+          req = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        req.overrideMimeType("application/json");
+        //var str = window.performance.now();
+        req.open('GET', 'http://localhost:8000/pricestream/api/btcusdt/', true);
+        //req.open('GET', 'test.txt', true);
+        req.onload  = function() {
+           //document.getElementById("test").innerHTML =  req.responseText
+           //console.log(req.responseText)
+           var jsonResponse = JSON.parse(req.responseText);
+           var priceFloat = parseFloat(jsonResponse.btc_price).toFixed(2);
+           document.getElementById("btcprice").innerHTML = priceFloat;
+        };
+        //var end = window.performance.now();
+        //console.log(`Execution time: ${end - str} ms`);
+        req.send(null);
+        window.setTimeout(makeApiCall_OLD, 5000);
+      }
+      /*
+      function testAJ() {
+        document.getElementById("test").innerHTML = 'help'
+      }*/
+      //updatePrice()
+      //document.getElementById("btcprice").innerHTML = price;
+      //window.setTimeout(makeApiCall, 5000);
+    </script>
+  </body>
+
+</html>

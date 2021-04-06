@@ -1,0 +1,22 @@
+body {
+  background-color: #0e1a24;
+}
+
+#priceblock {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 10px solid white;
+  width: 600px;
+  background-color: #152736
+
+
+}
+
+#btcprice {
+  font-familiy: 'Ubuntu', sans-serif;
+  font-size: 5em;
+  text-align: center;
+  color: white;
+}
