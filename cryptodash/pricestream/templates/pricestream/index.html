@@ -153,11 +153,43 @@
       function apiLoop() {
         fetchPrice().then((response) => {
           curr_price = response.btc_price;
-          //color = getColorChange(curr_price);
-          writePrice(curr_price, 'white');
+          nextColor = getColorChange(curr_price);
+          //console.log(nextColor);
+          writePrice(curr_price, nextColor);
         })
 
         setTimeout(apiLoop, 5000);
+      }
+
+      function getColorChange(curr_price) {
+          var last_price = parseFloat(document.getElementById("btcprice").innerHTML);
+          if (last_price < curr_price) {
+            return "green";
+          } else if (last_price > curr_price) {
+            return "red";
+          } else {
+            return "white";
+          }
+      }
+
+      function colorAnimation(color) {
+        if (color == "green") {
+          document.getElementById("btcprice").style.color = "#00ff00";
+          //document.getElementById("priceblock").style.border ="10px solid green";
+        } else if (color == "red") {
+          document.getElementById("btcprice").style.color = "#ff0000";
+          //document.getElementById("priceblock").style.border ="10px solid red";
+        } else {
+          document.getElementById("btcprice").style.color = "#ffffff";
+          //document.getElementById("priceblock").style.border ="10px solid white";
+        }
+        setTimeout(resetColor, 1000);
+
+      }
+
+      function resetColor() {
+        document.getElementById("btcprice").style.color = "#ffffff";
+        //document.getElementById("priceblock").style.border ="10px solid white";
       }
 
       //fetches btc_price from REST API
@@ -174,14 +206,7 @@
       //color based on price going up (green), down (red), or no change (white)
       function writePrice(currPrice, color) {
         document.getElementById("btcprice").innerHTML = parseFloat(currPrice).toFixed(2);
-        var test;
-        if (color == 'green') {
-            //do green animation
-            test = 1;
-        } else if (color == 'red') {
-            //do red animation
-            test = 2;
-        }
+        colorAnimation(color);
       }
 
       //Initialize the first price, don't change any color
