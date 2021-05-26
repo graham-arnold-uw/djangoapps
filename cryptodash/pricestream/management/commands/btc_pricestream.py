@@ -5,7 +5,9 @@ from pricestream.models import BTC_Price
 from urllib.parse import urljoin
 import requests, time
 from pricestream.management.commands.binance_helper import BinanceException
-from cryptodash.keyring import BINANCE_API_KEY
+from os import environ
+BINANCE_API_KEY = environ['BINANCE_API_KEY']
+#from cryptodash.keyring import BINANCE_API_KEY
 
 PRICES_UPDATE_INTERVAL = 2
 BASE_URL = 'https://api.binance.com'

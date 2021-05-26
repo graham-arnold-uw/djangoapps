@@ -11,7 +11,9 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
-from cryptodash.keyring import cd_sk
+from os import environ
+cd_sk = environ['CRYPTO_DASH_SK']
+#from cryptodash.keyring import cd_sk
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
