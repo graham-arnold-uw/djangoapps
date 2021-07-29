@@ -11,8 +11,8 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
-from os import environ
-cd_sk = environ['CRYPTO_DASH_SK']
+import os
+cd_sk = os.environ['CRYPTO_DASH_SK']
 #from cryptodash.keyring import cd_sk
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -59,7 +59,7 @@ ROOT_URLCONF = 'cryptodash.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -70,6 +70,10 @@ TEMPLATES = [
             ],
         },
     },
+]
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
 ]
 
 WSGI_APPLICATION = 'cryptodash.wsgi.application'
